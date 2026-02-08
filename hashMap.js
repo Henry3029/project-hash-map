@@ -29,6 +29,17 @@ class HaspMap {
 			this.resize(); // expand the bucket 
 			}
 	}
+	
+	has(key) {
+		const index = this.hash(key);
+		const bucket = this.buckets[index];
+		// search through the bucket for the key.
+		for(let node of bucket) {
+			if(node.key === key) return true; // found it
+			}
+			return false; // not found
+		}
+		
 	get(key) {
 		const index = this.hash(key);
 		const bucket = this.buckets[index];
@@ -37,6 +48,21 @@ class HaspMap {
 			}
 			return undefined;
 		}
+		
+		remove(key) {
+			const index = this.hash(key);
+			const bucket = this.buckets[index];
+			// search through the bucket for the key
+			for(let i = 0; i < bucket.length; i++) {
+				if(bucket[i].key === key) {
+					bucket.slice(i, 1); //remove the node from the array 
+					this.size--; //decrease the size
+					return true; // successfully removed 
+					}
+				}
+				return false; // key not found, nothing removed.
+			}
+	
 		
 		// resize 
 		resize() {
